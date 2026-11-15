@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أنت أهم عندنا</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600&display=swap">
+  <style>
+    :root {
+      --ink: #12263f;
+      --muted: #4a5b70;
+      --paper: #f6f9fc;
+      --grid: #dce6f2;
+      --rule: #cfe0f3;
+      --teal: #0b6e63;
+      --teal-dark: #08574e;
+      --marigold: #f2b632;
+      --marigold-wash: #fff4d6;
+      --margin-red: #e5484d;
+      --danger: #b3261e;
+      --ok: #0b6e63;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Readex Pro", Tahoma, Arial, sans-serif;
+      line-height: 1.8;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* The notebook sheet: white page with a red margin line. */
+    main {
+      position: relative;
+      max-width: 440px;
+      margin: clamp(16px, 7vh, 72px) auto;
+      padding: 32px 28px 28px 28px;
+      padding-inline-start: 64px;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 1px 0 #cbd7e5, 0 18px 32px -18px rgba(18, 38, 63, .35);
+    }
+    main::before {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: 40px;
+      width: 2px;
+      background: var(--margin-red);
+      opacity: .55;
+    }
+    main.wide { max-width: 960px; }
+
+    h1 { font-size: 1.9rem; font-weight: 600; line-height: 1.35; margin: 0 0 4px; }
+    h2 { font-size: 1.2rem; font-weight: 600; margin: 28px 0 8px; }
+    .lead { color: var(--muted); margin: 0 0 20px; }
+
+    input, select, button {
+      font: inherit;
+      color: inherit;
+      padding: 10px 14px;
+      border: 1.5px solid #b9c7d8;
+      border-radius: 8px;
+      background: #fff;
+    }
+    input { width: 100%; margin-bottom: 12px; }
+    input::placeholder { color: #66778c; }
+    button { cursor: pointer; transition: background-color .15s, border-color .15s; }
+    button:hover { border-color: var(--ink); }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    :is(button, input, select):focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+    .primary { width: 100%; background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 600; }
+    .primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); }
+
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .tabs button { flex: 1; }
+    .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+    .msg { min-height: 1.8em; color: var(--danger); margin: 8px 0 0; }
+
+    .or { display: flex; align-items: center; gap: 12px; color: var(--muted); margin: 10px 0; }
+    .or::before, .or::after { content: ""; flex: 1; border-top: 1px solid var(--rule); }
+
+    .oauth, .guest { width: 100%; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .mark {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: inline-grid; place-items: center;
+      font: 700 .85rem/1 Arial, sans-serif;
+    }
+    .mark.google { background: #fff; border: 1px solid #d4dce6; color: #4285f4; }
+
+    .guest {
+      margin-top: 16px;
+      flex-direction: column; gap: 0;
+      background: var(--marigold-wash);
+      border-color: var(--marigold);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .guest:hover { background: #ffedb8; border-color: #d99a12; }
+    .guest small { font-weight: 400; color: var(--muted); }
+
+    /* Dashboard */
+    .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+    .who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .who strong { font-size: 1.3rem; font-weight: 600; }
+    .badge { background: var(--marigold-wash); border: 1px solid var(--marigold); padding: 0 12px; border-radius: 999px; font-size: .85rem; }
+
+    .table-wrap { overflow-x: auto; max-height: 450px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: start; font-weight: 600; padding: 8px 10px; border-bottom: 2px solid var(--ink); white-space: nowrap; }
+    td { padding: 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+    td.actions button { padding: 4px 12px; font-size: .9rem; }
+    td.actions button + button { margin-inline-start: 8px; }
+    .danger { color: var(--danger); border-color: var(--danger); }
+    .danger:hover { background: #fdeceb; border-color: var(--danger); }
+    .pill { padding: 0 10px; border-radius: 999px; font-size: .85rem; border: 1px solid currentColor; }
+    .pill.ok { color: var(--ok); }
+    .pill.off { color: var(--danger); }
+    .empty { color: var(--muted); margin: 14px 0 0; }
+
+    @media (max-width: 520px) {
+      main { margin: 12px; padding: 24px 18px 22px; padding-inline-start: 46px; }
+      main::before { inset-inline-start: 26px; }
+      h1 { font-size: 1.55rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="app-main">
+    <!-- ==================== قسم تسجيل الدخول (login.html) ==================== -->
+    <div id="login-screen">
+      <h1>أنت أهم عندنا</h1>
+      <p class="lead">سجّل دخولك، أو أنشئ حساباً جديداً.</p>
+
+      <div class="tabs">
+        <button type="button" id="tab-login" aria-selected="true">تسجيل الدخول</button>
+        <button type="button" id="tab-signup" aria-selected="false">إنشاء حساب</button>
+      </div>
+
+      <form id="form">
+        <input id="name" type="text" placeholder="الاسم" autocomplete="name" hidden>
+        <input id="email" type="text" placeholder="البريد الإلكتروني أو اسم المستخدم" autocomplete="username" required>
+        <input id="password" type="password" placeholder="كلمة المرور" autocomplete="current-password" required>
+        <button class="primary" id="submit" type="submit">دخول</button>
+      </form>
+      <p class="msg" id="msg" role="alert"></p>
+
+      <div class="or">أو</div>
+      <button type="button" class="oauth" id="btn-google">
+        <span class="mark google" aria-hidden="true">G</span>المتابعة باستخدام Google
+      </button>
+
+      <button type="button" class="guest" id="guest">
+        الدخول كضيف<small>تصفّح بدون حساب</small>
+      </button>
+    </div>
+
+    <!-- ==================== قسم حسابي والإدارة (dashboard.html) ==================== -->
+    <div id="dashboard-screen" hidden>
+      <div class="bar">
+        <div class="who"><strong id="hello"></strong> <span class="badge" id="role"></span></div>
+        <button type="button" id="logout">تسجيل الخروج</button>
+      </div>
+
+      <section id="welcome" hidden>
+        <p id="welcome-text"></p>
+        <button type="button" class="primary" id="make-account" style="width:auto" hidden>إنشاء حساب</button>
+      </section>
+
+      <section id="staff" hidden>
+        <h2>إدارة المستخدمين (<span id="users-count">0</span>)</h2>
+        <input type="text" id="search-users" placeholder="ابحث بالاسم أو البريد الإلكتروني...">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>الاسم</th>
+                <th>البريد / المستخدم</th>
+                <th>طريقة الدخول</th>
+                <th>الصلاحية</th>
+                <th>الحالة</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="users"></tbody>
+          </table>
+        </div>
+        <p class="empty" id="empty" hidden>لا يوجد مستخدمون بعد. سيظهر هنا كل من ينشئ حساباً.</p>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://gstatic.com";
+    import { 
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+      GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, updateProfile 
+    } from "https://gstatic.com";
+    import { 
+      getFirestore, doc, setDoc, getDoc, updateDoc, deleteDoc, 
+      collection, onSnapshot, query, orderBy, serverTimestamp 
+    } from "https://gstatic.com";
+
+    // ⚠️ ضع بيانات مشروعك من Firebase هنا
+    const firebaseConfig = {
+      apiKey: "ضع_هنا_API_KEY",
+      authDomain: "ضع_هنا_AUTH_DOMAIN",
+      projectId: "ضع_هنا_PROJECT_ID",
+      storageBucket: "ضع_هنا_STORAGE_BUCKET",
+      messagingSenderId: "ضع_هنا_MESSAGING_SENDER_ID",
+      appId: "ضع_هنا_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    const VIP_ACCOUNTS = [
+      { name: 'أستاذة جيهان موسى', email: '115007', password: '160508' },
+      { name: 'أستاذة همت صادق', email: '115008', password: '160509' },
+      { name: 'أستاذ صلاح اللبان', email: '115009', password: '160510' },
+      { name: 'أستاذة ايمان العاودلي', email: '115010', password: '160511' },
+      { name: 'المبرمجون: عدي جمال دنيور ومروان محمد منصور', email: '2016', password: '0925' },
+    ];
+
+    const ROLE = { user: 'مستخدم', teacher: 'معلم VIP', guest: 'ضيف' };
+    const $ = id => document.getElementById(id);
+    const el = (tag, text, cls) => { const e = document.createElement(tag); if (text != null) e.textContent = text; if (cls) e.className = cls; return e; };
+    const norm = e => e.trim().toLowerCase();
